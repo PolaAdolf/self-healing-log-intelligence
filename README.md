@@ -343,8 +343,11 @@ The anomaly score is a percentile of anomaly extremeness against the training
 history. A score of 81.09 is not an 81.09% probability of failure.
 
 The current model never performs an automatic restart or remediation action.
-Forecast fields remain unavailable because no forecast model passed the
-development acceptance gate.
+Forecast fields are populated only when a compatible experimental forecast
+model and complete history are available. They are uncalibrated development
+signals for future recorded failures, not probabilities of a confirmed
+incident. Sources that lack enough history or validation events continue to
+return `not_available`.
 
 ## 8. Optional rebuild and retraining
 
