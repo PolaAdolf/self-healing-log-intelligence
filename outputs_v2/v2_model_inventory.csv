@@ -1,0 +1,7 @@
+source_model,time_basis,windows,detector_status,forecast_5m_status,forecast_15m_status
+apache,UTC,5933,trained,insufficient_proxy_onsets,insufficient_proxy_onsets
+iis,UTC,628,trained,insufficient_proxy_onsets,insufficient_proxy_onsets
+tomcat,UTC,57,insufficient_history,not_trained,not_trained
+apache_error,UTC,5921,trained,insufficient_proxy_onsets,insufficient_proxy_onsets
+application_ua_integration,UTC,371,insufficient_history,not_trained,not_trained
+windows_eventviewer,UTC,5938,trained,rejected_alert_flooding,rejected_no_test_lift

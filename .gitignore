@@ -1,0 +1,23 @@
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+runtime_state.json
+prediction.json
+current_window.json
+incoming/
+outgoing/
+*.tmp
+raw_sessions/
+verification_raw/
+tmp/
+Project Logs/
+Project Logs.rar
+release/
+models_v2_pre_utc_backup/
+outputs_v2_pre_utc_backup/
+outputs_v2/diagnostic_records.csv.gz
+outputs_v2/parsed_record_index.csv.gz
+outputs_v2/parse_failures.csv.gz
+output/docx/

@@ -1,0 +1,416 @@
+{
+  "label_origin": "Observed failures in supplied logs; no dummy labels",
+  "target_type": "future_failure_presence_including_persistence_and_recurrence",
+  "split": "chronological 60/20/20, purged future targets, full contiguous 12-window history",
+  "limitation": "Development evaluation on the supplied archive; not an independent production benchmark. Scores are uncalibrated model scores, not incident probabilities.",
+  "results": [
+    {
+      "source": "apache",
+      "horizon_minutes": 5,
+      "target": "At least one apache_5xx_count event in the next 5 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        724,
+        0,
+        56
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 1174,
+        "positives": 56,
+        "prevalence": 0.04770017035775128,
+        "average_precision": 0.9633325240124135,
+        "precision": 0.9811320754716981,
+        "recall": 0.9285714285714286,
+        "f1": 0.9541284403669725,
+        "false_alert_windows": 1
+      },
+      "persistence_baseline": {
+        "rows": 1174,
+        "positives": 56,
+        "prevalence": 0.04770017035775128,
+        "average_precision": 0.9145683532821521,
+        "precision": 0.9636363636363636,
+        "recall": 0.9464285714285714,
+        "f1": 0.954954954954955,
+        "false_alert_windows": 2
+      },
+      "prevalence_baseline": {
+        "rows": 1174,
+        "positives": 56,
+        "prevalence": 0.04770017035775128,
+        "average_precision": 0.04770017035775128,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3547,
+      "validation_rows": 1186,
+      "test_start": "2026-09-04 08:30:00+00:00",
+      "test_end": "2026-09-08 11:25:00+00:00"
+    },
+    {
+      "source": "apache",
+      "horizon_minutes": 15,
+      "target": "At least one apache_5xx_count event in the next 15 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        730,
+        0,
+        59
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 1170,
+        "positives": 59,
+        "prevalence": 0.05042735042735043,
+        "average_precision": 0.9069517662476267,
+        "precision": 1.0,
+        "recall": 0.864406779661017,
+        "f1": 0.9272727272727272,
+        "false_alert_windows": 0
+      },
+      "persistence_baseline": {
+        "rows": 1170,
+        "positives": 59,
+        "prevalence": 0.05042735042735043,
+        "average_precision": 0.8707094809749111,
+        "precision": 0.9811320754716981,
+        "recall": 0.8813559322033898,
+        "f1": 0.9285714285714286,
+        "false_alert_windows": 1
+      },
+      "prevalence_baseline": {
+        "rows": 1170,
+        "positives": 59,
+        "prevalence": 0.05042735042735043,
+        "average_precision": 0.05042735042735043,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3545,
+      "validation_rows": 1184,
+      "test_start": "2026-09-04 08:30:00+00:00",
+      "test_end": "2026-09-08 11:15:00+00:00"
+    },
+    {
+      "source": "iis",
+      "horizon_minutes": 5,
+      "target": "At least one iis_5xx_count event in the next 5 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        15,
+        0,
+        0
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 101,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 1
+      },
+      "persistence_baseline": {
+        "rows": 101,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "prevalence_baseline": {
+        "rows": 101,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 352,
+      "validation_rows": 107,
+      "test_start": "2026-09-03 10:15:00+00:00",
+      "test_end": "2026-09-08 09:35:00+00:00"
+    },
+    {
+      "source": "iis",
+      "horizon_minutes": 15,
+      "target": "At least one iis_5xx_count event in the next 15 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        19,
+        0,
+        0
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 95,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 1
+      },
+      "persistence_baseline": {
+        "rows": 95,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "prevalence_baseline": {
+        "rows": 95,
+        "positives": 0,
+        "prevalence": 0.0,
+        "average_precision": null,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 348,
+      "validation_rows": 103,
+      "test_start": "2026-09-03 10:15:00+00:00",
+      "test_end": "2026-09-08 09:25:00+00:00"
+    },
+    {
+      "source": "tomcat",
+      "horizon_minutes": 5,
+      "target": "At least one tomcat_5xx_count event in the next 5 minutes",
+      "status": "insufficient_history_or_classes"
+    },
+    {
+      "source": "tomcat",
+      "horizon_minutes": 15,
+      "target": "At least one tomcat_5xx_count event in the next 15 minutes",
+      "status": "insufficient_history_or_classes"
+    },
+    {
+      "source": "apache_error",
+      "horizon_minutes": 5,
+      "target": "At least one error_count event in the next 5 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        6,
+        0,
+        2
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 1172,
+        "positives": 2,
+        "prevalence": 0.0017064846416382253,
+        "average_precision": 0.009055090410187856,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "persistence_baseline": {
+        "rows": 1172,
+        "positives": 2,
+        "prevalence": 0.0017064846416382253,
+        "average_precision": 0.0017064846416382253,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 2
+      },
+      "prevalence_baseline": {
+        "rows": 1172,
+        "positives": 2,
+        "prevalence": 0.0017064846416382253,
+        "average_precision": 0.0017064846416382253,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3540,
+      "validation_rows": 1183,
+      "test_start": "2026-09-04 10:45:00+00:00",
+      "test_end": "2026-09-08 14:25:00+00:00"
+    },
+    {
+      "source": "apache_error",
+      "horizon_minutes": 15,
+      "target": "At least one error_count event in the next 15 minutes",
+      "status": "experimental_insufficient_validation_events",
+      "split_positive_counts": [
+        17,
+        0,
+        6
+      ],
+      "algorithm": "random_forest_fixed_unvalidated",
+      "threshold": 0.5,
+      "validation_average_precision": null,
+      "test": {
+        "rows": 1168,
+        "positives": 6,
+        "prevalence": 0.005136986301369863,
+        "average_precision": 0.021067609054684994,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "persistence_baseline": {
+        "rows": 1168,
+        "positives": 6,
+        "prevalence": 0.005136986301369863,
+        "average_precision": 0.005136986301369863,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 2
+      },
+      "prevalence_baseline": {
+        "rows": 1168,
+        "positives": 6,
+        "prevalence": 0.005136986301369863,
+        "average_precision": 0.005136986301369863,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3538,
+      "validation_rows": 1181,
+      "test_start": "2026-09-04 10:45:00+00:00",
+      "test_end": "2026-09-08 14:15:00+00:00"
+    },
+    {
+      "source": "application_ua_integration",
+      "horizon_minutes": 5,
+      "target": "At least one error_count event in the next 5 minutes",
+      "status": "insufficient_history_or_classes"
+    },
+    {
+      "source": "application_ua_integration",
+      "horizon_minutes": 15,
+      "target": "At least one error_count event in the next 15 minutes",
+      "status": "insufficient_history_or_classes"
+    },
+    {
+      "source": "windows_eventviewer",
+      "horizon_minutes": 5,
+      "target": "At least one error_count event in the next 5 minutes",
+      "status": "experimental_no_baseline_improvement",
+      "split_positive_counts": [
+        79,
+        34,
+        66
+      ],
+      "algorithm": "random_forest",
+      "threshold": 0.3329988487628936,
+      "validation_average_precision": 0.337943748862459,
+      "test": {
+        "rows": 1187,
+        "positives": 66,
+        "prevalence": 0.05560235888795282,
+        "average_precision": 0.04077441257546487,
+        "precision": 0.058823529411764705,
+        "recall": 0.015151515151515152,
+        "f1": 0.024096385542168676,
+        "false_alert_windows": 16
+      },
+      "persistence_baseline": {
+        "rows": 1187,
+        "positives": 66,
+        "prevalence": 0.05560235888795282,
+        "average_precision": 0.05560235888795282,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 66
+      },
+      "prevalence_baseline": {
+        "rows": 1187,
+        "positives": 66,
+        "prevalence": 0.05560235888795282,
+        "average_precision": 0.05560235888795282,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3550,
+      "validation_rows": 1187,
+      "test_start": "2026-09-04 11:50:00+00:00",
+      "test_end": "2026-09-08 14:40:00+00:00"
+    },
+    {
+      "source": "windows_eventviewer",
+      "horizon_minutes": 15,
+      "target": "At least one error_count event in the next 15 minutes",
+      "status": "experimental_no_baseline_improvement",
+      "split_positive_counts": [
+        139,
+        78,
+        196
+      ],
+      "algorithm": "random_forest",
+      "threshold": 0.05869116734580676,
+      "validation_average_precision": 0.2554884950043154,
+      "test": {
+        "rows": 1185,
+        "positives": 196,
+        "prevalence": 0.16540084388185655,
+        "average_precision": 0.11801375746162902,
+        "precision": 0.16279069767441862,
+        "recall": 0.9642857142857143,
+        "f1": 0.27855563743551953,
+        "false_alert_windows": 972
+      },
+      "persistence_baseline": {
+        "rows": 1185,
+        "positives": 196,
+        "prevalence": 0.16540084388185655,
+        "average_precision": 0.16540084388185655,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 66
+      },
+      "prevalence_baseline": {
+        "rows": 1185,
+        "positives": 196,
+        "prevalence": 0.16540084388185655,
+        "average_precision": 0.16540084388185655,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_alert_windows": 0
+      },
+      "train_rows": 3548,
+      "validation_rows": 1185,
+      "test_start": "2026-09-04 11:50:00+00:00",
+      "test_end": "2026-09-08 14:30:00+00:00"
+    }
+  ]
+}

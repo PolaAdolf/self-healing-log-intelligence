@@ -1,0 +1,30 @@
+[
+  {
+    "incident_id": "SYNTH-001",
+    "label_status": "synthetic",
+    "start_time_utc": "2026-09-01T09:30:00Z",
+    "end_time_utc": "2026-09-01T09:50:00Z",
+    "affected_service": "payment-api",
+    "severity": "high",
+    "root_cause": "Synthetic database-timeout scenario",
+    "source_models": ["apache", "iis"],
+    "evidence_sources": ["controlled-scenario-definition-v1"],
+    "reviewer": null,
+    "reviewed_at_utc": null,
+    "notes": "Pipeline test only. This is not a real incident and must not be used for production performance claims."
+  },
+  {
+    "incident_id": "SYNTH-002",
+    "label_status": "synthetic",
+    "start_time_utc": "2026-09-08T08:20:00Z",
+    "end_time_utc": "2026-09-08T08:45:00Z",
+    "affected_service": "web-application",
+    "severity": "medium",
+    "root_cause": "Synthetic upstream-service degradation scenario",
+    "source_models": ["apache", "iis"],
+    "evidence_sources": ["controlled-scenario-definition-v1"],
+    "reviewer": null,
+    "reviewed_at_utc": null,
+    "notes": "Pipeline test only. Replace with approved historical labels for real evaluation."
+  }
+]

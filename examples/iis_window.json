@@ -1,0 +1,15 @@
+{
+  "source_model": "iis",
+  "window_start": "2026-09-17T10:00:00Z",
+  "window_end": "2026-09-17T10:05:00Z",
+  "window_complete": true,
+  "features": {
+    "iis_request_count": 250,
+    "iis_2xx_count": 225,
+    "iis_response_ms_max": 480,
+    "iis_5xx_count": 5,
+    "iis_3xx_count": 5,
+    "iis_4xx_count": 15,
+    "iis_avg_response_ms": 92.5
+  }
+}

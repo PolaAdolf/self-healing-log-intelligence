@@ -1,0 +1,15 @@
+{
+  "source_model": "windows_eventviewer",
+  "window_start": "2026-09-17T10:00:00Z",
+  "window_end": "2026-09-17T10:05:00Z",
+  "window_complete": true,
+  "features": {
+    "record_count": 45,
+    "warn_count": 0,
+    "error_count": 4,
+    "notice_count": 0,
+    "info_count": 0,
+    "information_count": 35,
+    "warning_count": 6
+  }
+}

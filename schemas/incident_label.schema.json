@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/incident-label.schema.json",
+  "title": "Incident label record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "incident_id",
+    "label_status",
+    "start_time_utc",
+    "end_time_utc",
+    "affected_service",
+    "severity",
+    "root_cause",
+    "source_models",
+    "evidence_sources",
+    "reviewer",
+    "reviewed_at_utc",
+    "notes"
+  ],
+  "properties": {
+    "incident_id": { "type": "string", "minLength": 1 },
+    "label_status": {
+      "type": "string",
+      "enum": ["confirmed", "rejected", "uncertain", "synthetic"]
+    },
+    "start_time_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "end_time_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "affected_service": { "type": "string", "minLength": 1 },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical", "unknown"]
+    },
+    "root_cause": { "type": ["string", "null"] },
+    "source_models": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["apache", "iis", "apache_error", "windows_eventviewer"]
+      }
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reviewer": { "type": ["string", "null"] },
+    "reviewed_at_utc": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date-time", "pattern": "Z$" }
+      ]
+    },
+    "notes": { "type": "string" }
+  }
+}

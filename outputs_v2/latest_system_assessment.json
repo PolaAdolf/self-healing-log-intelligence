@@ -1,0 +1,141 @@
+[
+  {
+    "source_model": "apache",
+    "time_basis": "UTC",
+    "window_start": "2026-09-08 11:30:00+00:00",
+    "current_status": "within_learned_range",
+    "current_anomaly_score": 95.45,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [
+      "apache_request_count=300",
+      "apache_2xx_count=234",
+      "apache_bytes_sent=119032",
+      "apache_4xx_count=64",
+      "apache_5xx_count=2"
+    ],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Check the web service/app-pool state and upstream dependencies.",
+      "Review matching server errors before considering a restart.",
+      "Check authentication, authorization, routing, and client request patterns.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  },
+  {
+    "source_model": "iis",
+    "time_basis": "UTC",
+    "window_start": "2026-09-08 09:40:00+00:00",
+    "current_status": "within_learned_range",
+    "current_anomaly_score": 92.55,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [
+      "iis_request_count=211",
+      "iis_2xx_count=211",
+      "iis_response_ms_max=78",
+      "iis_avg_response_ms=27.8531"
+    ],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Compare IIS latency with application-pool and dependency health.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  },
+  {
+    "source_model": "tomcat",
+    "time_basis": "UTC",
+    "window_start": "2026-09-08 11:40:00+00:00",
+    "current_status": "insufficient_history",
+    "current_anomaly_score": null,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [
+      "tomcat_request_count=22",
+      "tomcat_2xx_count=19",
+      "tomcat_bytes_sent=4835",
+      "tomcat_5xx_count=3"
+    ],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Check the web service/app-pool state and upstream dependencies.",
+      "Review matching server errors before considering a restart.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  },
+  {
+    "source_model": "apache_error",
+    "time_basis": "UTC",
+    "window_start": "2026-09-08 14:30:00+00:00",
+    "current_status": "within_learned_range",
+    "current_anomaly_score": 83.42,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [
+      "record_count=14",
+      "warn_count=14"
+    ],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Inspect the Apache module, certificate, proxy, and backend messages.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  },
+  {
+    "source_model": "application_ua_integration",
+    "time_basis": "UTC",
+    "window_start": "2026-09-07 15:20:00+00:00",
+    "current_status": "insufficient_history",
+    "current_anomaly_score": null,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Inspect ERROR/FATAL messages and explicit stop/start events for the service.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  },
+  {
+    "source_model": "windows_eventviewer",
+    "time_basis": "UTC",
+    "window_start": "2026-09-08 14:45:00+00:00",
+    "current_status": "within_learned_range",
+    "current_anomaly_score": 98.32,
+    "forecast_score_5m": null,
+    "forecast_status_5m": "not_available",
+    "forecast_score_15m": null,
+    "forecast_status_15m": "not_available",
+    "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
+    "forecast_warning": "No forecast model passed the development acceptance gate for this source.",
+    "evidence": [
+      "record_count=27",
+      "information_count=27"
+    ],
+    "recommended_checks": [
+      "Verify collection coverage and inspect the source records for this window.",
+      "Inspect repeated Event IDs, providers, and Service Control Manager events.",
+      "Use a reviewed runbook and health check before any remediation action."
+    ]
+  }
+]

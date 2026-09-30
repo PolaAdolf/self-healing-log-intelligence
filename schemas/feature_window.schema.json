@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/feature-window.schema.json",
+  "title": "Completed five-minute model feature window",
+  "description": "One source-specific completed window. The runtime also verifies that window_end is exactly five minutes after window_start.",
+  "oneOf": [
+    { "$ref": "#/$defs/apache" },
+    { "$ref": "#/$defs/iis" },
+    { "$ref": "#/$defs/apache_error" },
+    { "$ref": "#/$defs/windows_eventviewer" }
+  ],
+  "$defs": {
+    "non_negative": {
+      "type": "number",
+      "minimum": 0
+    },
+    "apache": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_model", "window_start", "window_end", "window_complete", "features"],
+      "properties": {
+        "source_model": { "const": "apache" },
+        "window_start": { "type": "string", "format": "date-time", "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$" },
+        "window_end": { "type": "string", "format": "date-time", "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$" },
+        "window_complete": { "const": true },
+        "features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["apache_request_count", "apache_2xx_count", "apache_bytes_sent", "apache_4xx_count", "apache_5xx_count", "apache_3xx_count"],
+          "properties": {
+            "apache_request_count": { "$ref": "#/$defs/non_negative" },
+            "apache_2xx_count": { "$ref": "#/$defs/non_negative" },
+            "apache_bytes_sent": { "$ref": "#/$defs/non_negative" },
+            "apache_4xx_count": { "$ref": "#/$defs/non_negative" },
+            "apache_5xx_count": { "$ref": "#/$defs/non_negative" },
+            "apache_3xx_count": { "$ref": "#/$defs/non_negative" }
+          }
+        }
+      }
+    },
+    "iis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_model", "window_start", "window_end", "window_complete", "features"],
+      "properties": {
+        "source_model": { "const": "iis" },
+        "window_start": { "type": "string", "format": "date-time", "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$" },
+        "window_end": { "type": "string", "format": "date-time", "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$" },
+        "window_complete": { "const": true },
+        "features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["iis_request_count", "iis_2xx_count", "iis_response_ms_max", "iis_5xx_count", "iis_3xx_count", "iis_4xx_count", "iis_avg_response_ms"],
+          "properties": {
+            "iis_request_count": { "$ref": "#/$defs/non_negative" },
+            "iis_2xx_count": { "$ref": "#/$defs/non_negative" },
+            "iis_response_ms_max": { "$ref": "#/$defs/non_negative" },
+            "iis_5xx_count": { "$ref": "#/$defs/non_negative" },
+            "iis_3xx_count": { "$ref": "#/$defs/non_negative" },
+            "iis_4xx_count": { "$ref": "#/$defs/non_negative" },
+            "iis_avg_response_ms": { "$ref": "#/$defs/non_negative" }
+          }
+        }
+      }
+    },
+    "event_count_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_count", "warn_count", "error_count", "notice_count", "info_count", "information_count", "warning_count"],
+      "properties": {
+        "record_count": { "$ref": "#/$defs/non_negative" },
+        "warn_count": { "$ref": "#/$defs/non_negative" },
+        "error_count": { "$ref": "#/$defs/non_negative" },
+        "notice_count": { "$ref": "#/$defs/non_negative" },
+        "info_count": { "$ref": "#/$defs/non_negative" },
+        "information_count": { "$ref": "#/$defs/non_negative" },
+        "warning_count": { "$ref": "#/$defs/non_negative" }
+      }
+    },
+    "apache_error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_model", "window_start", "window_end", "window_complete", "features"],
+      "properties": {
+        "source_model": { "const": "apache_error" },
+        "window_start": { "type": "string", "format": "date-time", "pattern": "Z$" },
+        "window_end": { "type": "string", "format": "date-time", "pattern": "Z$" },
+        "window_complete": { "const": true },
+        "features": { "$ref": "#/$defs/event_count_features" }
+      }
+    },
+    "windows_eventviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_model", "window_start", "window_end", "window_complete", "features"],
+      "properties": {
+        "source_model": { "const": "windows_eventviewer" },
+        "window_start": { "type": "string", "format": "date-time", "pattern": "Z$" },
+        "window_end": { "type": "string", "format": "date-time", "pattern": "Z$" },
+        "window_complete": { "const": true },
+        "features": { "$ref": "#/$defs/event_count_features" }
+      }
+    }
+  }
+}
