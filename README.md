@@ -1,5 +1,7 @@
 # Self-Healing Log Anomaly Model
 
+**Project team:** Pola Adolf and Youssef Atef.
+
 **Original-log upload dashboard and observed-failure forecasting.** Run
 `python raw_log_service.py` and open `http://localhost:8765`. See
 [LIVE_DEMO.md](LIVE_DEMO.md) for the live presentation and raw-file API.
@@ -150,7 +152,17 @@ The verified and assumed UTC rules, plus the distinction between failure
 signals and incident labels, are in
 [DATA_TIME_AND_FAILURE_POLICY.md](DATA_TIME_AND_FAILURE_POLICY.md).
 
-## 4. Production file flow
+## 4. Presentation and live demonstration
+
+- [Project presentation](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
+  explains the EDA, data cleaning, feature engineering, model choices,
+  comparisons, measured results, current use, and next phase.
+- [Captioned live-demo video](output/video/NBE_Innovation_Cycle_2026_Live_Demo.mp4)
+  shows the dashboard with English on-screen explanations.
+- [Live demo instructions](LIVE_DEMO.md) explain how to start the dashboard and
+  upload original logs from the supplied archive.
+
+## 5. Production file flow
 
 The upstream system must aggregate raw logs into one completed five-minute
 window. When the file is ready, it invokes the model once:
@@ -181,7 +193,7 @@ The first 11 consecutive windows are warm-up history. A missing five-minute
 window resets that source's history and returns `awaiting_history_after_gap`.
 Duplicate and out-of-order windows are rejected.
 
-## 5. Input file structure
+## 6. Input file structure
 
 Each input file must contain exactly one completed five-minute window:
 
@@ -291,7 +303,7 @@ Apache error-log model.
 
 Example: [examples/windows_eventviewer_window.json](examples/windows_eventviewer_window.json)
 
-## 6. Test with your own data
+## 7. Test with your own data
 
 Copy the closest example and replace its timestamp and feature values. Start a
 new test with a new state filename:
@@ -311,7 +323,7 @@ the current anomaly assessment.
 For a second independent test, use a different state filename. Do not reuse
 production state for experiments.
 
-## 7. Output interpretation
+## 8. Output interpretation
 
 The final response has this form:
 
@@ -349,7 +361,7 @@ signals for future recorded failures, not probabilities of a confirmed
 incident. Sources that lack enough history or validation events continue to
 return `not_available`.
 
-## 8. Optional rebuild and retraining
+## 9. Optional rebuild and retraining
 
 The saved model and prepared feature tables are already included. Rebuilding is
 not required for inference.
@@ -367,7 +379,7 @@ Review `outputs_v2/data_quality_report.md`,
 `outputs_v2/v2_development_metrics.csv`, and `models_v2/model_card.json` before
 using a newly trained bundle.
 
-## 9. Current production gates
+## 10. Current production gates
 
 Before claiming future-incident prediction or unattended remediation, the
 project still requires:
@@ -380,7 +392,7 @@ project still requires:
 
 See [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) for details.
 
-## 10. Synthetic incident-pipeline check
+## 11. Synthetic incident-pipeline check
 
 The included dummy incidents can exercise target construction without waiting
 for approved incident data:

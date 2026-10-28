@@ -21,3 +21,6 @@ outputs_v2/diagnostic_records.csv.gz
 outputs_v2/parsed_record_index.csv.gz
 outputs_v2/parse_failures.csv.gz
 output/docx/
+.build/
+.codex-finalizer/
+.chart-data-*/
