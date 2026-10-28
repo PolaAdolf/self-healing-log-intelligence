@@ -21,8 +21,11 @@ last hour of history, and returns:
 - diagnostic checks for an operator;
 - a recommended action (`none` or `operator_review`).
 
-The model does not collect raw logs, run Kafka or Filebeat, schedule jobs, or
-restart services. Those responsibilities belong to the upstream application.
+The included local dashboard can accept original log files for a demonstration
+and prepare records for the model. A production deployment still needs an
+upstream collector or integration to deliver new logs on schedule (for example,
+every five minutes); this repository does not configure Kafka/Filebeat, deploy
+a scheduler, or restart services.
 
 The saved model is a development model. It supports current anomaly detection
 and experimental five- and fifteen-minute forecasts of future recorded failure
@@ -154,6 +157,8 @@ signals and incident labels, are in
 
 ## 4. Presentation and live demonstration
 
+- [Final project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
+  documents the dataset, methods, evaluation results, limits, and roadmap.
 - [Project presentation](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
   explains the EDA, data cleaning, feature engineering, model choices,
   comparisons, measured results, current use, and next phase.
