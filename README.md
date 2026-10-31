@@ -98,17 +98,22 @@ python -m pip install -r requirements.txt
 ```
 
 Run every command below from the repository root.
+The saved model bundle was trained with scikit-learn 1.9.1. Install the pinned
+version from `requirements.txt` before loading it; a different version can
+produce incompatible inference.
 
 ## 2. Run the automated tests
 
 ```bash
-python -m pytest tests -q
+python -m unittest discover -s tests -v
 ```
 
 The expected result is:
 
 ```text
-17 passed
+Ran 17 tests
+
+OK
 ```
 
 ## 3. Run the production-like smoke test
@@ -157,13 +162,20 @@ signals and incident labels, are in
 
 ## 4. Presentation and live demonstration
 
+- [Demo Day run of show](DEMO_DAY_2026.md) gives the ten-minute stage timing,
+  commentary cues, careful claim wording, and a live backup procedure.
+- [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
+  is the short presentation for the idea owner.
+- [Demo Day recorded run](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
+  shows one continuous upload of the supplied raw Apache log, real inference,
+  English captions, and quiet original instrumental music.
 - [Final project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
   documents the dataset, methods, evaluation results, limits, and roadmap.
 - [Project presentation](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
   explains the EDA, data cleaning, feature engineering, model choices,
   comparisons, measured results, current use, and next phase.
-- [Captioned live-demo video](output/video/NBE_Innovation_Cycle_2026_Live_Demo.mp4)
-  shows the dashboard with English on-screen explanations.
+- [Short captioned overview](output/video/NBE_Innovation_Cycle_2026_Live_Demo.mp4)
+  is a 45-second visual summary built from a computed dashboard frame.
 - [Live demo instructions](LIVE_DEMO.md) explain how to start the dashboard and
   upload original logs from the supplied archive.
 

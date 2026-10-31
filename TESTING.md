@@ -18,7 +18,7 @@ python -m pip install -r requirements.txt
 Run the automated suite:
 
 ```bash
-python -m pytest tests -q
+python -m unittest discover -s tests -v
 ```
 
 The suite covers parsing and timestamps, missing data, feature windows,
