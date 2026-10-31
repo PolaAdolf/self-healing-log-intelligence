@@ -2,12 +2,13 @@
 
 **Date:** 26 November 2026  
 **Team:** Pola Adolf and Youssef Atef  
-**Total stage slot:** about 10 minutes: five minutes for the idea owner, then about five minutes for the recorded solution run with student commentary.
+**Total stage slot:** about 10 minutes: five minutes for the idea owner, then a two-minute solution video and about three minutes for student commentary and questions.
 
 ## Files to bring
 
 - [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
-- [Recorded raw-log demonstration](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
+- [Presentation video: two-minute professional cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
+- [Uncut browser recording, technical backup](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
 - [Technical backup deck](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
 - [Project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
 
@@ -25,7 +26,7 @@ Download the pitch and video to the presentation laptop before arrival. Play the
 
 ## Part 2: solution video, student commentary
 
-The video shows one continuous Edge recording of the local dashboard using the supplied `Project Logs/Apache httpd/access.log.1` file. The browser uploads the original file, waits for the real parser and saved models, then moves through the actual results. English captions and quiet original instrumental music are included. The speakers can use these short explanations:
+The presentation video is edited from one genuine Edge recording of the local dashboard using the supplied `Project Logs/Apache httpd/access.log.1` file. It shows the original file upload, real parser and saved-model results. Idle processing waits and long pauses are shortened, with a disclosure on the opening card. Large English chapter cards and close views replace bottom captions. Original instrumental music plays under the video. The uncut recording is linked above. Use these brief explanations during the video, then take questions in the remaining time:
 
 | Video moment | Suggested commentary |
 |---|---|
