@@ -166,10 +166,13 @@ signals and incident labels, are in
   commentary cues, careful claim wording, and a live backup procedure.
 - [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
   is the short presentation for the idea owner.
-- [Demo Day presentation video](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
-  is a two-minute edit of one real raw-log upload and model run. It uses large
-  English chapter cards, close views of the actual results, and original music.
-  Idle waits are shortened; the model results are unaltered.
+- [Demo Day stage film](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Stage_Film.mp4)
+  is the recommended 83-second presentation cut. Large English scene titles
+  appear beside close views of the genuine raw-log upload and model run. It has
+  original music and no bottom captions. Idle waits are shortened; the model
+  results are unaltered.
+- [Two-minute alternate cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
+  gives more time to the original dashboard footage.
 - [Uncut recorded run](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
   preserves the complete browser session as a technical backup.
 - [Final project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)

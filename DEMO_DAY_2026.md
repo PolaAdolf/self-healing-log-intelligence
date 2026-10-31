@@ -2,12 +2,13 @@
 
 **Date:** 26 November 2026  
 **Team:** Pola Adolf and Youssef Atef  
-**Total stage slot:** about 10 minutes: five minutes for the idea owner, then a two-minute solution video and about three minutes for student commentary and questions.
+**Total stage slot:** about 10 minutes: five minutes for the idea owner, then an 83-second solution film and about three and a half minutes for student commentary and questions.
 
 ## Files to bring
 
 - [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
-- [Presentation video: two-minute professional cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
+- [Stage film: recommended 83-second cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Stage_Film.mp4)
+- [Two-minute alternate cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
 - [Uncut browser recording, technical backup](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
 - [Technical backup deck](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
 - [Project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
@@ -26,7 +27,7 @@ Download the pitch and video to the presentation laptop before arrival. Play the
 
 ## Part 2: solution video, student commentary
 
-The presentation video is edited from one genuine Edge recording of the local dashboard using the supplied `Project Logs/Apache httpd/access.log.1` file. It shows the original file upload, real parser and saved-model results. Idle processing waits and long pauses are shortened, with a disclosure on the opening card. Large English chapter cards and close views replace bottom captions. Original instrumental music plays under the video. The uncut recording is linked above. Use these brief explanations during the video, then take questions in the remaining time:
+The stage film is edited from one genuine Edge recording of the local dashboard using the supplied `Project Logs/Apache httpd/access.log.1` file. It shows the original file upload, real parser and saved-model results. Idle processing waits and long pauses are shortened, with a disclosure on the opening card. Large English scene titles sit beside close views of the actual UI; there are no bottom captions. Original instrumental music plays under the film. The longer edit and uncut recording are linked above. Use these brief explanations during the film, then take questions in the remaining time:
 
 | Video moment | Suggested commentary |
 |---|---|
