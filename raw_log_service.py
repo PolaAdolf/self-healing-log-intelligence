@@ -231,12 +231,18 @@ def handler(app):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Local live raw-log model dashboard")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Bind address (use 0.0.0.0 only inside a private Codespace)",
+    )
     parser.add_argument("--data-dir", type=Path, default=ROOT / "raw_sessions")
     args = parser.parse_args()
     app = App(args.data_dir.resolve())
-    server = ThreadingHTTPServer(("127.0.0.1", args.port), handler(app))
-    print(f"Open http://localhost:{args.port} — upload original raw logs. No simulated results.", flush=True)
+    server = ThreadingHTTPServer((args.host, args.port), handler(app))
+    print(f"Listening on {args.host}:{args.port} — upload original raw logs. No simulated results.", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         server.server_close()
+
