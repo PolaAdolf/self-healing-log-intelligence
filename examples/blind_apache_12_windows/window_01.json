@@ -1,0 +1,15 @@
+{
+  "source_model": "apache",
+  "window_start": "2026-11-07T12:00:00Z",
+  "window_end": "2026-11-07T12:05:00Z",
+  "window_complete": true,
+  "features": {
+    "apache_request_count": 300,
+    "apache_2xx_count": 270,
+    "apache_bytes_sent": 101000,
+    "apache_4xx_count": 20,
+    "apache_5xx_count": 5,
+    "apache_3xx_count": 5
+  }
+}
+
