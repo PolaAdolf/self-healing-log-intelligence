@@ -178,6 +178,21 @@ signals and incident labels, are in
 - [Uncut recorded run](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
   preserves the complete browser session as a technical backup.
 - [Final project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
+
+## Run in GitHub Codespaces
+
+1. Open this repository on GitHub and choose **Code → Codespaces → Create codespace on main**.
+2. Wait for the Codespace setup to finish. The dev container installs the pinned project requirements and forwards port `8765` privately.
+3. In the Codespaces terminal, run:
+
+   ```bash
+   python raw_log_service.py --host 0.0.0.0 --port 8765 --data-dir tmp/codespaces_demo
+   ```
+
+4. Open the forwarded **Log Observatory** port from the Ports panel or the notification.
+5. Select a source, upload its original log file, and click **Upload & analyze**.
+
+The forwarded port is configured as private. Do not change it to public for log uploads. A Codespace runs in GitHub's cloud; upload only data approved for that environment. Uploaded logs and results are kept in the Codespace workspace under `tmp/codespaces_demo/` and are not committed to the repository. Stop the Codespace when finished.
   documents the dataset, methods, evaluation results, limits, and roadmap.
 - [Project presentation](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
   explains the EDA, data cleaning, feature engineering, model choices,
@@ -433,3 +448,4 @@ python build_incident_targets.py \
 This produces leakage-safe 5-minute and 15-minute onset targets and excludes
 windows where an incident is already active. The output is a pipeline test only.
 It must not be presented as incident-prediction accuracy.
+
