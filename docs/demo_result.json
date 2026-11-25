@@ -1,0 +1,105 @@
+{
+  "status": "complete",
+  "result": {
+    "source": "apache",
+    "model_version": "2.2.0-development",
+    "processed_at": "2026-11-25T23:40:59.502947+00:00",
+    "mode": "Actual inference on uploaded raw logs",
+    "summary": {
+      "parsed_records": 3692,
+      "rejected_records": 0,
+      "input_files": 1,
+      "total_windows": 13,
+      "complete_windows": 12,
+      "excluded_windows": 1,
+      "timezone_policy": "UTC from source offset/format",
+      "coverage": "Inferred from first and last record in each file; collector completeness is not independently verified."
+    },
+    "latest": {
+      "model_version": "2.2.0-development",
+      "source_model": "apache",
+      "time_basis": "UTC",
+      "window_start": "2026-11-07 12:55:00+00:00",
+      "window_end": "2026-11-07 13:00:00+00:00",
+      "current_status": "unusual",
+      "current_anomaly_score": 99.18,
+      "score_definition": "Training-history anomaly percentile; not a failure probability.",
+      "evidence": [
+        "apache_request_count=300",
+        "apache_2xx_count=170",
+        "apache_bytes_sent=255158",
+        "apache_4xx_count=30",
+        "apache_5xx_count=95",
+        "apache_3xx_count=5"
+      ],
+      "recommended_checks": [
+        "Verify collection coverage and inspect the source records for this window.",
+        "Check the web service/app-pool state and upstream dependencies.",
+        "Review matching server errors before considering a restart.",
+        "Check authentication, authorization, routing, and client request patterns.",
+        "Use a reviewed runbook and health check before any remediation action."
+      ],
+      "recommended_action": "operator_review",
+      "forecast_score_5m": null,
+      "forecast_status_5m": "not_available",
+      "forecast_score_15m": null,
+      "forecast_status_15m": "not_available",
+      "anomaly_explanation": {
+        "score_meaning": "Percentile rank of anomaly extremeness against detector training history; not failure probability",
+        "unusual_threshold": 98.99,
+        "decision": "unusual only when the score reaches or exceeds the threshold"
+      }
+    },
+    "prediction": {
+      "status": "scored",
+      "availability": {
+        "5": "experimental_preview",
+        "15": "experimental_preview"
+      },
+      "score_meaning": "Uncalibrated model score on a 0\u2013100 display scale.",
+      "explanation": {
+        "current_failure_count": 95.0,
+        "failure_windows_in_last_12": 9,
+        "failure_count_in_last_12": 131.0,
+        "history_windows": 12,
+        "current_request_count": 300.0,
+        "current_failure_rate": 0.31666666666666665,
+        "request_count_in_last_12": 3691.0,
+        "failure_rate_in_last_12": 0.035491736656732595,
+        "current_4xx_count": 30.0,
+        "four_xx_count_in_last_12": 276.0,
+        "four_xx_rate_in_last_12": 0.07477648333784882
+      },
+      "forecasts": [
+        {
+          "horizon_minutes": 5,
+          "score": 43.22,
+          "threshold": 50.0,
+          "prediction": "lower_experimental_signal",
+          "validation_status": "experimental_insufficient_validation_events",
+          "algorithm": "random_forest_fixed_unvalidated",
+          "target": "At least one apache_5xx_count event in the next 5 minutes"
+        },
+        {
+          "horizon_minutes": 15,
+          "score": 47.0,
+          "threshold": 50.0,
+          "prediction": "lower_experimental_signal",
+          "validation_status": "experimental_insufficient_validation_events",
+          "algorithm": "random_forest_fixed_unvalidated",
+          "target": "At least one apache_5xx_count event in the next 15 minutes"
+        }
+      ]
+    },
+    "history_windows": 12,
+    "timeline": [
+      {
+        "time": "2026-11-07 12:55:00+00:00",
+        "score": 99.18,
+        "status": "unusual",
+        "failure_count": 95
+      }
+    ],
+    "assessment_note": "Uploaded historical logs can overlap model training data. This run demonstrates processing, not independent prediction accuracy."
+  }
+}

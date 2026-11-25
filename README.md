@@ -2,6 +2,19 @@
 
 **NBE Innovation Cycle 2026 · Pola Adolf and Youssef Atef**
 
+[![Tests](https://github.com/PolaAdolf/self-healing-log-intelligence/actions/workflows/tests.yml/badge.svg)](https://github.com/PolaAdolf/self-healing-log-intelligence/actions/workflows/tests.yml)
+
+![Current release 2.2 dashboard using the synthetic Apache demonstration file](docs/images/dashboard.png)
+
+**Development prototype, release 2.2.** [Capabilities and limits](STATUS.md)
+
+- Upload supported original log files.
+- Review source-specific anomaly scores with measured evidence.
+- Inspect suggested checks and clearly labelled experimental forecasts.
+
+[Conference presentation](output/presentations/NBE_Innovation_Cycle_2026_Conference_Deck.pptx) · [PDF slides](docs/NBE_Innovation_Cycle_2026_Conference_Deck.pdf) · [Rehearsal guide](docs/DEMO_SCRIPT.md) · [Opening animation](docs/film/index.html)
+
+
 Log Observatory turns original operational logs into five-minute summaries. It highlights unusual activity and gives operators the measurements and checks they need to investigate. The dashboard also displays experimental five- and fifteen-minute signals for recorded failures for Apache access. For other sources the dashboard explains why a forecast is withheld. See the [2.2 release evidence](MODEL_RELEASE_2_2.md).
 
 ## Run the dashboard
@@ -52,7 +65,7 @@ flowchart LR
 
 ```bash
 python run_model_demo.py --source apache
-python -m pip install pytest
+python -m pip install -r requirements-dev.txt
 python -m pytest tests -q
 ```
 
@@ -71,10 +84,20 @@ Scoring starts with 12 consecutive complete windows. A missing interval restarts
 - **Experimental forecasts.** The target is future recorded errors, including recurrence. The scores are uncalibrated. Confirmed incident prediction requires approved labels and evaluation on a later, untouched period.
 - **Source coverage.** Four models were trained. Tomcat access and the supplied application logs were examined but excluded from model training. Timestamp assumptions and feature exclusions are documented below.
 
+## Output preview
+
+![Animated overview of three real synthetic-demo output panels](docs/images/demo-overview.gif)
+
+This overview cycles through actual result panels. It is not a recording of an upload.
+
 ## Project reference
 
 - [Dataset inventory](DATASET_INVENTORY.md), [feature catalog](FEATURE_CATALOG.md), and [timestamp policy](DATA_TIME_AND_FAILURE_POLICY.md)
 - [Forecast evaluation](outputs_v2/failure_prediction_report.json), [model comparison](MODEL_EVALUATION.md) and [incident validation plan](INCIDENT_PREDICTION_PLAN.md)
 - [Final presentation](output/presentations/NBE_Innovation_Cycle_2026_Final_Presentation.pptx)
-- [Archived project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
+- [Archived project report](archive/prior_prototype/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
 - [Extended delivery guide](MODEL_DELIVERY_GUIDE.md)
+
+## Rights and contributions
+
+All rights reserved. The owners have not granted an open-source license. See [LICENSE](LICENSE). This release does not introduce an outside-contribution program.
