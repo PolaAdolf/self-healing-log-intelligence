@@ -9,7 +9,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 #cap{position:fixed;left:0;right:0;bottom:calc(30px + env(safe-area-inset-bottom,0px));text-align:center;font-size:clamp(14px,1.7vw,23px);line-height:1.35;padding:0 9%;text-shadow:0 2px 14px #000,0 0 3px #000;pointer-events:none}
 #bar{position:fixed;left:0;right:0;bottom:0;height:12px;background:#ffffff16;cursor:pointer}
 #fill{height:100%;width:0;background:#5eead4}
-#ui{position:fixed;right:12px;top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:8px;opacity:.45;transition:opacity .3s}
+#ui{position:fixed;right:12px;top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:8px;opacity:0;transition:opacity .3s}
 #ui:hover{opacity:1}
 button{font:800 13px Manrope,sans-serif;color:#e8f1f5;background:#ffffff14;border:1px solid #ffffff38;border-radius:8px;padding:8px 12px;cursor:pointer}
 #start{position:fixed;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#04090eee;text-align:center;padding:24px}
@@ -101,10 +101,10 @@ var sp=eb((t-10.5)/.5);if(sp>0){x.save();x.translate(1000,510);x.rotate(-.1);var
 function actG(t){KW(t,'A reproducible synthetic demonstration.',.2,13.6,52,40,'#fff');var pe=eo(t/.8);SA(pe);rr(140,92,1000,498,18);x.fillStyle='#0b1620';x.fill();x.strokeStyle='#22404f';x.lineWidth=2;x.stroke();T('LOG OBSERVATORY',170,122,14,M,pe,F(14),'left');
 if(t>9.8){var q=eo((t-9.8)/.5);SA(q);x.fillStyle=M;rr(850,106,270,30,15);x.fill();T('18 software tests passed',985,121,15,'#04201b',q,F(15))}
 var fy=-120+310*eb((t-.4)/1),fo=1-cl((t-2.6)/.5);if(fo>0){SA(fo);rr(580,fy,120,90,10);x.fillStyle='#17303c';x.fill();x.strokeStyle=M;x.lineWidth=2;x.stroke();T('apache_demo.log',640,fy+45,16,Tx,fo,F(16,600))}
-T(fmt(3692*eo((t-3)/1.4))+' records parsed',390,205,30,M,eo((t-3)/.4));T(fmt(12*eo((t-3.8)/1.2))+' windows built',890,205,30,M,eo((t-3.8)/.4));
+T(fmt(3692*eo((t-3)/1.4))+' records parsed',390,205,30,M,eo((t-3)/.4));T(fmt(12*eo((t-3.8)/1.2))+' complete windows',890,205,30,M,eo((t-3.8)/.4));
 [['Current anomaly percentile','99.18',M,5],['Next 5 minutes · experimental','43.22',A,5.6],['Next 15 minutes · experimental','47.00',A,6.2]].forEach(function(v,i){var p=eo((t-v[3])/.6),cx=170+i*335;if(p>0){SA(p);rr(cx,250,300,100,12);x.fillStyle='#10202c';x.fill();T(v[0],cx+16,274,14,Mu,p,F(14,600),'left');T((parseFloat(v[1])*eo((t-v[3])/1.2)).toFixed(2),cx+16,317,44,v[2],p,FS(44),'left')}});
 var cs=Math.floor(cl((t-6.5)/6)*N);if(cs>0){x.strokeStyle=M;x.lineWidth=2.5;SA(.95);x.beginPath();for(var i=0;i<=cs;i++){var px=170+i*(940/N),py=570-PCT[i]*1.9;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke()}
-T('Anomaly history · source event time (UTC)',170,392,14,Mu,eo((t-6.5)/.5),F(14,600),'left')}
+T('Illustrative curve · not recorded telemetry',170,392,14,Mu,eo((t-6.5)/.5),F(14,600),'left')}
 
 /* ACT H 106-120: roadmap and close */
 function actH(t){var sA=AA,fo=1-eo((t-7.6)/.6),i;AA=sA*fo;KW(t,'Next: from signals to confirmed incidents.',.2,7.9,100,44,'#fff');
@@ -143,7 +143,7 @@ var idx=0;for(i=0;i<ACT.length;i++)if(g>=ACT[i][0])idx=i;var a=ACT[idx],lt=g-a[0
 AA=(idx?cl(lt/.45):1)*(idx<7?cl((a[1]-g)/.45):1);
 x.save();var zs=1+.035*lt/dur;x.translate(640,360);x.scale(zs,zs);x.translate(-640,-360);a[2](lt);x.restore();
 AA=1;if(idx){var p=(g-a[0]+.2),bx=-100+p*1480;if(p>0&&p<1){var lg=x.createLinearGradient(bx-160,0,bx,0);lg.addColorStop(0,'rgba(94,234,212,0)');lg.addColorStop(1,'rgba(94,234,212,.35)');x.globalAlpha=1;x.fillStyle=lg;x.fillRect(bx-160,0,160,H);SA(.9*(1-p));x.fillStyle=M;x.fillRect(bx,0,3,H)}}
-T('EXPLANATORY ANIMATION · charts are illustrative · not a live recording',640,22,14,Mu,1,F(14));
+T('EXPLANATORY ANIMATION · charts are illustrative · not a live recording',640,655,14,Mu,1,F(14));
 x.restore();
 var ss=VO[idx].match(/[^.]+\./g)||[VO[idx]],tl=ss.reduce(function(s,v){return s+v.length},0),f=cl(lt/(dur*.9)),c=0,k=ss.length-1;for(i=0;i<ss.length;i++){c+=ss[i].length/tl;if(f<=c){k=i;break}}
 var ct=ss[k].trim();if(cap.textContent!==ct)cap.textContent=ct;fill.style.width=g/1.2+'%'}
