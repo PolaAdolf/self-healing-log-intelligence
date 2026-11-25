@@ -8,7 +8,9 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from train_v2_models import engineer_features, load_source_frames, percentile_scores
+from train_v2_models import load_source_frames, percentile_scores
+from failure_prediction import load_forecast_artifacts, prepare
+from forecast_policy import PREVIEW, forecast_availability
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,6 +57,10 @@ def recommendations(source: str, row: pd.Series) -> list[str]:
 def score_sources(input_dir: Path, model_file: Path, output_dir: Path) -> list[dict]:
     output_dir.mkdir(parents=True, exist_ok=True)
     bundle = joblib.load(model_file)
+    forecasts, forecast_report = load_forecast_artifacts(
+        model_file.with_name("failure_prediction.joblib"),
+        input_dir / "failure_prediction_report.json",
+    )
     sources = load_source_frames(input_dir)
     scored_frames = []
     latest = []
@@ -66,7 +72,7 @@ def score_sources(input_dir: Path, model_file: Path, output_dir: Path) -> list[d
             for column in base_features:
                 if column not in config["frame"]:
                     config["frame"][column] = 0
-        engineered, features = engineer_features(
+        engineered, features = prepare(
             config["frame"], config["timestamp"], base_features
         )
         output = engineered[[config["timestamp"]] + base_features].copy()
@@ -88,18 +94,25 @@ def score_sources(input_dir: Path, model_file: Path, output_dir: Path) -> list[d
             output["current_status"] = np.where(
                 raw >= package["detector_raw_threshold"], "unusual", "within_learned_range"
             )
-            for horizon in ("5m", "15m"):
-                forecast_package = package["forecast_models"].get(horizon)
-                if forecast_package is None:
-                    output[f"forecast_score_{horizon}"] = np.nan
-                    output[f"forecast_status_{horizon}"] = "not_available"
+            ready = engineered["history_ready"]
+            output.loc[~ready, "current_anomaly_score"] = np.nan
+            output.loc[~ready, "current_status"] = "awaiting_history"
+            for minutes in (5, 15):
+                horizon = f"{minutes}m"
+                forecast_source = forecasts.get(source, {})
+                forecast_package = forecast_source.get("horizons", {}).get(str(minutes))
+                availability = forecast_availability(forecast_report, source, minutes)
+                output[f"forecast_score_{horizon}"] = np.nan
+                output[f"forecast_status_{horizon}"] = "not_available" if forecast_package is None else availability
+                output.loc[~ready, f"forecast_status_{horizon}"] = "awaiting_history"
+                if forecast_package is None or availability != PREVIEW or not ready.any():
                     continue
-                scores = forecast_package["model"].predict_proba(engineered[features])[:, 1]
-                output[f"forecast_score_{horizon}"] = scores * 100
-                output[f"forecast_status_{horizon}"] = np.where(
+                scores = forecast_package["model"].predict_proba(engineered.loc[ready, forecast_source["features"]])[:, 1]
+                output.loc[ready, f"forecast_score_{horizon}"] = scores * 100
+                output.loc[ready, f"forecast_status_{horizon}"] = np.where(
                     scores >= forecast_package["threshold"],
-                    "elevated_proxy_risk",
-                    "lower_proxy_risk",
+                    "elevated_experimental_signal",
+                    "lower_experimental_signal",
                 )
         scored_frames.append(output)
         last = output.iloc[-1]
@@ -128,10 +141,9 @@ def score_sources(input_dir: Path, model_file: Path, output_dir: Path) -> list[d
                 "forecast_status_15m": last["forecast_status_15m"],
                 "current_score_warning": "The anomaly score is a training-history percentile, not a failure probability.",
                 "forecast_warning": (
-                    "Forecast uses proxy unusual-onset labels and is not production approved."
-                    if last["forecast_status_5m"] != "not_available"
-                    or last["forecast_status_15m"] != "not_available"
-                    else "No forecast model passed the development acceptance gate for this source."
+                    "Experimental score for future recorded errors."
+                    if pd.notna(last["forecast_score_5m"]) or pd.notna(last["forecast_score_15m"])
+                    else "No forecast preview is shown for this window."
                 ),
                 "evidence": evidence_for(source, last, base_features),
                 "recommended_checks": recommendations(source, last),

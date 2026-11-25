@@ -2,6 +2,7 @@
 
 This guide matches the current package: the saved five-minute anomaly model,
 the raw-log upload dashboard, and the separate experimental failure forecast.
+Check [2.2 release evidence](MODEL_RELEASE_2_2.md) for the expected forecast status of each source.
 For dashboard API details, see [LIVE_DEMO.md](LIVE_DEMO.md).
 
 ## 1. Install and run the tests

@@ -16,6 +16,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler
 
 from train_v2_models import load_source_frames, engineer_features, choose_threshold
+from forecast_policy import PREVIEW, UNAVAILABLE, forecast_availability
 
 STEP = pd.Timedelta(300, unit="s")
 FAILURE_FIELDS = {
@@ -201,7 +202,7 @@ def train(input_dir: Path, model_path: Path, report_path: Path, compare_candidat
     return bundle
 
 
-def predict_history(bundle, source, history):
+def predict_history(bundle, source, history, report=None):
     if source not in bundle:
         return {"status": "insufficient_training_history", "forecasts": []}
     package = bundle[source]
@@ -237,14 +238,31 @@ def predict_history(bundle, source, history):
             four_xx_rate_in_last_12=(recent_four_xx / explanation["request_count_in_last_12"] if explanation.get("request_count_in_last_12") else None),
         )
     forecasts = []
+    availability = {}
+    report = report or {}
+    for horizon in (5, 15):
+        key = str(horizon)
+        availability[key] = (
+            forecast_availability(report, source, horizon)
+            if key in package["horizons"] else UNAVAILABLE
+        )
     for horizon, item in package["horizons"].items():
+        if availability.get(horizon) != PREVIEW:
+            continue
         score = float(item["model"].predict_proba(matrix)[0, 1])
-        experimental = item["validation_status"].startswith("experimental_")
         forecasts.append({"horizon_minutes": int(horizon), "score": round(score * 100, 2),
             "threshold": round(float(item["threshold"]) * 100, 2),
-            "prediction": (("elevated_experimental_signal" if score >= item["threshold"] else "lower_experimental_signal") if experimental else ("failure_expected" if score >= item["threshold"] else "failure_not_expected")),
+            "prediction": "elevated_experimental_signal" if score >= item["threshold"] else "lower_experimental_signal",
             "validation_status": item["validation_status"], "algorithm": item.get("algorithm", "unknown"), "target": item["target"]})
-    return {"status": "scored", "score_meaning": "Uncalibrated model signal on a 0-100 display scale; not an 85% probability or production confidence", "explanation": explanation, "forecasts": forecasts}
+    return {"status": "scored" if forecasts else "withheld", "availability": availability,
+            "score_meaning": "Uncalibrated model score on a 0–100 display scale.",
+            "explanation": explanation, "forecasts": forecasts}
+
+
+def load_forecast_artifacts(model_path, report_path):
+    bundle = joblib.load(model_path) if model_path.is_file() else {}
+    report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}
+    return bundle, report
 
 
 if __name__ == "__main__":

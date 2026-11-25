@@ -2,7 +2,7 @@
 
 **NBE Innovation Cycle 2026 · Pola Adolf and Youssef Atef**
 
-Log Observatory turns original operational logs into five-minute summaries. It highlights unusual activity and gives operators the measurements and checks they need to investigate. The dashboard also displays experimental five- and fifteen-minute signals for recorded failures where a compatible forecast is available.
+Log Observatory turns original operational logs into five-minute summaries. It highlights unusual activity and gives operators the measurements and checks they need to investigate. The dashboard also displays experimental five- and fifteen-minute signals for recorded failures for Apache access. For other sources the dashboard explains why a forecast is withheld. See the [2.2 release evidence](MODEL_RELEASE_2_2.md).
 
 ## Run the dashboard
 
@@ -76,5 +76,5 @@ Scoring starts with 12 consecutive complete windows. A missing interval restarts
 - [Dataset inventory](DATASET_INVENTORY.md), [feature catalog](FEATURE_CATALOG.md), and [timestamp policy](DATA_TIME_AND_FAILURE_POLICY.md)
 - [Forecast evaluation](outputs_v2/failure_prediction_report.json), [model comparison](MODEL_EVALUATION.md) and [incident validation plan](INCIDENT_PREDICTION_PLAN.md)
 - [Final presentation](output/presentations/NBE_Innovation_Cycle_2026_Final_Presentation.pptx)
-- [Project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
+- [Archived project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
 - [Extended delivery guide](MODEL_DELIVERY_GUIDE.md)

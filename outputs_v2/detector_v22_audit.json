@@ -1,0 +1,46 @@
+[
+  {
+    "source": "apache",
+    "training_windows": 3548,
+    "holdout_windows": 1176,
+    "review_flags": {
+      "prior": 30,
+      "retrained": 30
+    },
+    "forecast_5m": "experimental_preview",
+    "forecast_15m": "experimental_preview"
+  },
+  {
+    "source": "iis",
+    "training_windows": 354,
+    "holdout_windows": 104,
+    "review_flags": {
+      "prior": 0,
+      "retrained": 0
+    },
+    "forecast_5m": "too_few_test_errors",
+    "forecast_15m": "too_few_test_errors"
+  },
+  {
+    "source": "apache_error",
+    "training_windows": 3541,
+    "holdout_windows": 1174,
+    "review_flags": {
+      "prior": 12,
+      "retrained": 11
+    },
+    "forecast_5m": "too_few_test_errors",
+    "forecast_15m": "too_few_test_errors"
+  },
+  {
+    "source": "windows_eventviewer",
+    "training_windows": 3551,
+    "holdout_windows": 1188,
+    "review_flags": {
+      "prior": 147,
+      "retrained": 122
+    },
+    "forecast_5m": "persistence_baseline_not_beaten",
+    "forecast_15m": "persistence_baseline_not_beaten"
+  }
+]

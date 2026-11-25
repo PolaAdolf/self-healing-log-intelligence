@@ -11,10 +11,11 @@ import numpy as np
 import pandas as pd
 
 from score_v2_system import evidence_for, recommendations
+from failure_prediction import load_forecast_artifacts, predict_history
 from train_v2_models import engineer_features, percentile_scores
 
 
-MODEL_VERSION = "2.1.0-development"
+MODEL_VERSION = "2.2.0-development"
 WINDOW_MINUTES = 5
 REQUIRED_WINDOWS = 12
 WINDOW_DURATION = pd.Timedelta(WINDOW_MINUTES * 60, unit="s")
@@ -30,17 +31,21 @@ class SelfHealingModelRuntime:
         model_file: Path | None = None,
         state_file: Path | None = None,
         bundle: dict[str, dict] | None = None,
+        forecast_bundle: dict | None = None,
+        forecast_report: dict | None = None,
     ) -> None:
         if bundle is None:
             if model_file is None or not model_file.exists():
                 raise FileNotFoundError(model_file)
             bundle = joblib.load(model_file)
         self.bundle = bundle
+        self.forecast_bundle = forecast_bundle or {}
+        self.forecast_report = forecast_report or {}
         self.state_file = state_file
         self.history: dict[str, list[dict[str, Any]]] = {}
         if state_file is not None and state_file.exists():
             saved = json.loads(state_file.read_text(encoding="utf-8"))
-            if saved.get("model_version") == MODEL_VERSION:
+            if saved.get("model_version") in {"2.1.0-development", MODEL_VERSION}:
                 self.history = saved.get("sources", {})
 
     def save_state(self) -> None:
@@ -175,19 +180,13 @@ class SelfHealingModelRuntime:
             "recommended_checks": recommendations(source, current),
             "recommended_action": "operator_review" if unusual else "none",
         }
-        for horizon in ("5m", "15m"):
-            forecast = package["forecast_models"].get(horizon)
-            if forecast is None:
-                result[f"forecast_score_{horizon}"] = None
-                result[f"forecast_status_{horizon}"] = "not_available"
-                continue
-            score = float(forecast["model"].predict_proba(current_matrix)[0, 1])
-            result[f"forecast_score_{horizon}"] = round(score * 100, 2)
-            result[f"forecast_status_{horizon}"] = (
-                "elevated_proxy_risk"
-                if score >= forecast["threshold"]
-                else "lower_proxy_risk"
-            )
+        prediction = predict_history(self.forecast_bundle, source, history, self.forecast_report)
+        forecasts = {item["horizon_minutes"]: item for item in prediction["forecasts"]}
+        for horizon in (5, 15):
+            forecast = forecasts.get(horizon, {})
+            availability = prediction.get("availability", {}).get(str(horizon))
+            result[f"forecast_score_{horizon}m"] = forecast.get("score")
+            result[f"forecast_status_{horizon}m"] = forecast.get("prediction", availability or "not_available")
         return result
 
 
@@ -199,13 +198,16 @@ def parse_args() -> argparse.Namespace:
         "--models", type=Path, default=Path("models_v2/self_healing_v2.joblib")
     )
     parser.add_argument("--state", type=Path, default=Path("runtime_state.json"))
+    parser.add_argument("--forecast-models", type=Path, default=Path("models_v2/failure_prediction.joblib"))
+    parser.add_argument("--forecast-report", type=Path, default=Path("outputs_v2/failure_prediction_report.json"))
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    runtime = SelfHealingModelRuntime(args.models, args.state)
     try:
+        forecasts, report = load_forecast_artifacts(args.forecast_models, args.forecast_report)
+        runtime = SelfHealingModelRuntime(args.models, args.state, forecast_bundle=forecasts, forecast_report=report)
         payload = json.loads(args.input.read_text(encoding="utf-8"))
         result = runtime.predict(payload)
     except (OSError, json.JSONDecodeError, ModelInputError) as exc:

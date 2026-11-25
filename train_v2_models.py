@@ -207,6 +207,14 @@ def main() -> None:
 
         train_end = int(n_rows * 0.60)
         validation_end = int(n_rows * 0.80)
+        window = pd.Timedelta(minutes=5)
+        timestamps = engineered[config["timestamp"]]
+        runs = timestamps.diff().ne(window).cumsum()
+        ready = engineered.groupby(runs).cumcount().ge(11)
+        training = ready & (engineered.index < train_end)
+        if training.sum() < 100:
+            inventory.append(inventory_row)
+            continue
         detector = Pipeline(
             [
                 ("imputer", SimpleImputer(strategy="median")),
@@ -223,9 +231,9 @@ def main() -> None:
                 ),
             ]
         )
-        detector.fit(engineered.loc[: train_end - 1, features])
+        detector.fit(engineered.loc[training, features])
         raw_scores = -detector.decision_function(engineered[features])
-        sorted_train_scores = np.sort(raw_scores[:train_end])
+        sorted_train_scores = np.sort(raw_scores[training.to_numpy()])
         anomaly_threshold = float(np.quantile(sorted_train_scores, 0.99))
         engineered["proxy_unusual"] = (raw_scores >= anomaly_threshold).astype(int)
         engineered["proxy_onset"] = (
@@ -247,6 +255,7 @@ def main() -> None:
             ),
             "forecast_models": {},
             "training_rows": train_end,
+            "contiguous_training_windows": int(training.sum()),
             "validation_end_row": validation_end,
             "label_type": "proxy_unusual_onset",
         }
@@ -331,18 +340,18 @@ def main() -> None:
     inventory_df.to_csv(args.output / "v2_model_inventory.csv", index=False)
 
     card = {
-        "model_version": "2.1.0-development",
+        "model_version": "2.2.0-development",
         "detector_models": sorted(bundle),
-        "accepted_forecast_models": [
+        "legacy_proxy_candidates": [
             f"{source}:{horizon}"
             for source, package in sorted(bundle.items())
             for horizon in sorted(package["forecast_models"])
         ],
-        "label_type": "proxy_unusual_onset",
+        "detector_fit_scope": "First 60% of each source, with 12 consecutive complete windows",
         "current_score_meaning": "percentile of anomaly extremeness against training history",
-        "forecast_score_meaning": "model ranking score for a future proxy unusual onset",
+        "forecast_score_meaning": "Experimental score for future recorded errors, including recurrence",
         "not_a_probability": True,
-        "forecast_acceptance_gate": "PR-AUC above prevalence and no more than 12 false alert windows per day on the development test",
+        "forecast_preview_gate": "At least 20 positive test windows and higher average precision than persistence",
         "production_limit": "Requires human incident labels and untouched later data",
     }
     (args.models / "model_card.json").write_text(

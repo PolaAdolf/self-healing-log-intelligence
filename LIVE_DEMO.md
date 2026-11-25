@@ -116,11 +116,7 @@ Event Viewer is evaluable but the trained classifiers did not improve on the
 baseline. These limitations remain visible. This is a development result on one
 archive, not production certification or accuracy on independent incidents.
 
-Models are in `models_v2/failure_prediction.joblib`. The original anomaly bundle
-and legacy feature-window CLI are retained. The raw-log service combines that
-anomaly detector with the separate failure-prediction bundle. The legacy CLI's
-old proxy-forecast fields still remain unavailable; the new service exposes the
-actual failure forecasts under `prediction`.
+Models are in `models_v2/failure_prediction.joblib`. The raw-log service and feature-window CLI apply the same [2.2 preview policy](MODEL_RELEASE_2_2.md). Apache access exposes experimental scores after warm-up. Other trained sources return the reason the score is withheld. The dashboard exposes these statuses under `prediction.availability` by horizon.
 
 Tomcat and application logs remain documented in the dataset inventory. Their
 history is insufficient for this training recipe, and the dashboard does not

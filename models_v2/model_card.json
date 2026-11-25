@@ -1,16 +1,16 @@
 {
-  "model_version": "2.1.0-development",
+  "model_version": "2.2.0-development",
   "detector_models": [
     "apache",
     "apache_error",
     "iis",
     "windows_eventviewer"
   ],
-  "accepted_forecast_models": [],
-  "label_type": "proxy_unusual_onset",
   "current_score_meaning": "percentile of anomaly extremeness against training history",
-  "forecast_score_meaning": "model ranking score for a future proxy unusual onset",
+  "forecast_score_meaning": "Experimental score for future recorded errors, including recurrence",
   "not_a_probability": true,
-  "forecast_acceptance_gate": "PR-AUC above prevalence and no more than 12 false alert windows per day on the development test",
-  "production_limit": "Requires human incident labels and untouched later data"
+  "production_limit": "Requires human incident labels and untouched later data",
+  "legacy_proxy_candidates": [],
+  "detector_fit_scope": "First 60% of each source, with 12 consecutive complete windows",
+  "forecast_preview_gate": "At least 20 positive test windows and higher average precision than persistence"
 }

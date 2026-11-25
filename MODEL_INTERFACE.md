@@ -54,28 +54,26 @@ non-numeric, negative, or non-finite inputs.
 
 ```json
 {
-  "model_version": "2.1.0-development",
-  "source_model": "apache",
+  "model_version": "2.2.0-development",
+  "source_model": "apache_error",
   "time_basis": "UTC",
   "window_start": "2026-09-08 11:00:00+00:00",
   "window_end": "2026-09-08 11:05:00+00:00",
   "current_status": "within_learned_range",
   "current_anomaly_score": 84.2,
   "score_definition": "Training-history anomaly percentile; not a failure probability.",
-  "evidence": ["apache_request_count=200", "apache_5xx_count=5"],
-  "recommended_checks": ["Review matching server errors before considering a restart."],
+  "evidence": ["error_count=5"],
+  "recommended_checks": ["Verify collection coverage and inspect the source records for this window."],
   "recommended_action": "none",
   "forecast_score_5m": null,
-  "forecast_status_5m": "not_available",
+  "forecast_status_5m": "too_few_test_errors",
   "forecast_score_15m": null,
-  "forecast_status_15m": "not_available"
+  "forecast_status_15m": "too_few_test_errors"
 }
 ```
 
 `current_status=unusual` means the window is outside the learned historical
-range. It does not prove service failure. Forecast fields remain unavailable
-until a model trained on human-confirmed incident onsets passes its acceptance
-gate.
+range. It does not prove service failure. Apache access returns an experimental score for each available horizon. IIS and Apache error return `too_few_test_errors`. Windows Event Viewer returns `persistence_baseline_not_beaten`. Withheld scores are null. See the [2.2 release evidence](MODEL_RELEASE_2_2.md).
 
 ## Command-line integration
 
@@ -91,11 +89,18 @@ ready. The same Python class can also be imported into an API process:
 
 ```python
 from pathlib import Path
+from failure_prediction import load_forecast_artifacts
 from model_runtime import SelfHealingModelRuntime
 
+forecasts, report = load_forecast_artifacts(
+    Path("models_v2/failure_prediction.joblib"),
+    Path("outputs_v2/failure_prediction_report.json"),
+)
 runtime = SelfHealingModelRuntime(
     Path("models_v2/self_healing_v2.joblib"),
     Path("runtime_state.json"),
+    forecast_bundle=forecasts,
+    forecast_report=report,
 )
 result = runtime.predict(payload)
 ```

@@ -1,5 +1,7 @@
 # Dataset and Model Inventory
 
+For the current detector fit and forecast availability, see [Model release 2.2](MODEL_RELEASE_2_2.md).
+
 ## Supplied data coverage
 
 The IT dataset contained more than Apache access and IIS logs. Parser version
@@ -64,8 +66,8 @@ assumption stays visible and can be revised later.
 
 - `outputs_v2/v2_model_inventory.csv`: window count and training status for
   every candidate source.
-- `outputs_v2/v2_development_metrics.csv`: rejected proxy-forecast results.
-- `outputs_v2/v2_scored_windows.csv`: development anomaly scores.
+- `outputs_v2/v2_development_metrics.csv`: archived proxy-forecast experiments from before release 2.2.
+- `outputs_v2/v2_scored_windows.csv`: archive anomaly scores and available forecast previews.
 - `outputs_v2/latest_system_assessment.json`: example combined assessment.
 - `models_v2/self_healing_v2.joblib`: the four trained detector packages.
 - `models_v2/model_card.json`: model version, accepted/rejected capabilities,

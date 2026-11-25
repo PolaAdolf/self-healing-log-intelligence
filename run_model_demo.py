@@ -9,6 +9,7 @@ import tempfile
 
 import pandas as pd
 
+from failure_prediction import load_forecast_artifacts
 from model_runtime import REQUIRED_WINDOWS, WINDOW_DURATION, SelfHealingModelRuntime
 
 
@@ -95,6 +96,10 @@ def main() -> None:
         raise FileNotFoundError(f"Model bundle was not found: {MODEL_FILE}")
 
     loaded_bundle = SelfHealingModelRuntime(model_file=MODEL_FILE).bundle
+    forecast_bundle, forecast_report = load_forecast_artifacts(
+        MODEL_FILE.with_name("failure_prediction.joblib"),
+        KNOWN_UTC_FILE.with_name("failure_prediction_report.json"),
+    )
     package = loaded_bundle[args.source]
     base_features = list(package["base_features"])
     history = first_consecutive_history(load_source_rows(args.source, base_features))
@@ -112,6 +117,8 @@ def main() -> None:
         service_runtime = SelfHealingModelRuntime(
             state_file=state_file,
             bundle=loaded_bundle,
+            forecast_bundle=forecast_bundle,
+            forecast_report=forecast_report,
         )
         for number, (_, row) in enumerate(history.iterrows(), start=1):
             payload = {

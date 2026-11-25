@@ -4,7 +4,11 @@
 **Team:** Pola Adolf and Youssef Atef  
 **Total stage slot:** about 10 minutes: five minutes for the idea owner, then a 50-second solution film and about four minutes for student commentary and questions.
 
-## Files to bring
+## Release 2.2 presentation
+
+Use the [final presentation](output/presentations/NBE_Innovation_Cycle_2026_Final_Presentation.pptx) and the current dashboard. Start with the synthetic Apache sample linked in the README and explain the source-specific preview policy. The recordings and numbers below describe the previous prototype. See the [2.2 release evidence](MODEL_RELEASE_2_2.md) for current results.
+
+## Archived rehearsal materials
 
 - [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
 - [Short ceremony film: 50-second keynote cut](output/video/Self_Healing_Log_Intelligence_Ceremony_Film.mp4)

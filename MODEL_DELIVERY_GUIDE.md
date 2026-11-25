@@ -1,5 +1,7 @@
 # Self-Healing Log Anomaly Model
 
+For current forecast availability and training changes, see the [2.2 release evidence](MODEL_RELEASE_2_2.md). This extended guide retains some earlier example results.
+
 **Project team:** Pola Adolf and Youssef Atef.
 
 **Original-log upload dashboard and observed-failure forecasting.** Run

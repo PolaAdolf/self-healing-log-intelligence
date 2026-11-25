@@ -19,8 +19,8 @@ import pandas as pd
 from build_corrected_dataset import (BuildState, LINEAGE_FIELDS, DIAGNOSTIC_FIELDS,
     FAILURE_FIELDS, parse_apache_access, parse_iis, parse_apache_errors, parse_event_csv,
     export_known_features, export_assumed_utc_features)
-from failure_prediction import prepare, predict_history
-from model_runtime import SelfHealingModelRuntime
+from failure_prediction import load_forecast_artifacts, prepare, predict_history
+from model_runtime import MODEL_VERSION, SelfHealingModelRuntime
 from train_v2_models import percentile_scores
 
 ROOT = Path(__file__).resolve().parent
@@ -78,7 +78,7 @@ def aggregate_raw(source, input_dir, output_dir):
     return frame.loc[frame[complete].eq(1)].copy(), summary
 
 
-def analyze(source, input_dir, output_dir, anomaly_bundle, forecast_bundle):
+def analyze(source, input_dir, output_dir, anomaly_bundle, forecast_bundle, forecast_report=None):
     frame, summary = aggregate_raw(source, input_dir, output_dir)
     package = anomaly_bundle[source]
     # Shared event CSV columns may be absent for a particular source's severity
@@ -107,14 +107,14 @@ def analyze(source, input_dir, output_dir, anomaly_bundle, forecast_bundle):
             "features": {name: float(row[name]) for name in package["base_features"]}}
         latest = runtime.predict(payload)
     history = runtime.history.get(source, [])
-    forecast = predict_history(forecast_bundle, source, history) if history else {"status": "awaiting_history", "forecasts": []}
+    forecast = predict_history(forecast_bundle, source, history, forecast_report) if history else {"status": "awaiting_history", "forecasts": []}
     if "current_anomaly_score" in latest:
         latest["anomaly_explanation"] = {
             "score_meaning": "Percentile rank of anomaly extremeness against detector training history; not failure probability",
             "unusual_threshold": round(float(package["detector_score_threshold"]), 2),
             "decision": "unusual only when the score reaches or exceeds the threshold",
         }
-    result = {"source": source, "processed_at": datetime.now(timezone.utc).isoformat(),
+    result = {"source": source, "model_version": MODEL_VERSION, "processed_at": datetime.now(timezone.utc).isoformat(),
         "mode": "Actual inference on uploaded raw logs", "summary": summary,
         "latest": latest, "prediction": forecast, "history_windows": len(history),
         "timeline": timeline, "assessment_note": "Uploaded historical logs can overlap model training data. This run demonstrates processing, not independent prediction accuracy."}
@@ -130,7 +130,8 @@ class App:
         self.jobs = {}
         self.anomaly = joblib.load(ROOT / "models_v2/self_healing_v2.joblib")
         forecast = ROOT / "models_v2/failure_prediction.joblib"
-        self.forecast = joblib.load(forecast) if forecast.exists() else {}
+        report = ROOT / "outputs_v2/failure_prediction_report.json"
+        self.forecast, self.forecast_report = load_forecast_artifacts(forecast, report)
 
     def start(self, source):
         with self.lock:
@@ -139,7 +140,7 @@ class App:
             self.jobs[source] = {"status": "running"}
         def work():
             try:
-                result = analyze(source, self.data_dir / source / "raw", self.data_dir / source / "results", self.anomaly, self.forecast)
+                result = analyze(source, self.data_dir / source / "raw", self.data_dir / source / "results", self.anomaly, self.forecast, self.forecast_report)
                 with self.lock:
                     self.jobs[source] = {"status": "complete", "result": result}
             except Exception as exc:
@@ -171,8 +172,7 @@ def handler(app):
             if path == "/":
                 return self.reply(200, (ROOT / "web/index.html").read_bytes(), "text/html; charset=utf-8")
             if path == "/api/evaluation":
-                report = ROOT / "outputs_v2/failure_prediction_report.json"
-                return self.reply(200, json.loads(report.read_text()) if report.exists() else {"results": []})
+                return self.reply(200, app.forecast_report or {"results": []})
             if source not in SOURCES:
                 return self.reply(400, {"error": "Unsupported source"})
             if path == "/api/status":
@@ -180,7 +180,8 @@ def handler(app):
                     state = app.jobs.get(source)
                 if state is None:
                     saved = app.data_dir / source / "results/assessment.json"
-                    state = {"status": "complete", "result": json.loads(saved.read_text())} if saved.exists() else {"status": "idle"}
+                    result = json.loads(saved.read_text(encoding="utf-8")) if saved.exists() else {}
+                    state = {"status": "complete", "result": result} if result.get("model_version") == MODEL_VERSION else {"status": "idle"}
                 return self.reply(200, state)
             return self.reply(404, {"error": "Not found"})
 
@@ -245,4 +246,3 @@ if __name__ == "__main__":
         server.serve_forever()
     except KeyboardInterrupt:
         server.server_close()
-
