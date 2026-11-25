@@ -426,3 +426,7 @@ python build_incident_targets.py \
 This produces leakage-safe 5-minute and 15-minute onset targets and excludes
 windows where an incident is already active. The output is a pipeline test only.
 It must not be presented as incident-prediction accuracy.
+
+## Model artifact trust
+
+Joblib uses pickle serialization and can execute code when loading a model. Only load model bundles obtained from this repository or a verified release that you trust. Check SHA-256 against `models_v2/CHECKSUMS.txt` before loading. A matching hash proves byte identity with that manifest, not safety of an untrusted source. Do not accept uploaded joblib models from dashboard users.
