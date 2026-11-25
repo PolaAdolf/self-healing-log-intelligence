@@ -13,13 +13,13 @@ install the listed dependencies:
 ```powershell
 py -m venv .venv
 .\\.venv\\Scripts\\Activate.ps1
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
 ```
 
 Run the automated suite:
 
 ```bash
-python -m unittest discover -s tests -v
+python -m pytest tests -q
 ```
 
 The suite covers parsing and timestamps, missing data, feature windows,
@@ -80,3 +80,5 @@ demonstrate the process without waiting for real-time collection.
 - Not enough history: provide at least 12 consecutive complete five-minute
   windows for that source.
 - Duplicate or out-of-order window: start a fresh state file for a separate test, or send the next five-minute timestamp in order.
+
+Preparation check, 26 November 2026: **18 passed**. Automated tests verify software behavior, not prediction accuracy.

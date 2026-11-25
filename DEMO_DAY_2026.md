@@ -10,13 +10,13 @@ Use the [final presentation](output/presentations/NBE_Innovation_Cycle_2026_Fina
 
 ## Archived rehearsal materials
 
-- [Five-minute idea pitch](output/presentations/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
+- [Five-minute idea pitch](output/presentations/archive/NBE_Innovation_Cycle_2026_Demo_Day_5_Minute_Pitch.pptx)
 - [Short ceremony film: 50-second keynote cut](output/video/Self_Healing_Log_Intelligence_Ceremony_Film.mp4)
 - [Detailed stage film: 83-second cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Stage_Film.mp4)
 - [Two-minute alternate cut](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Professional_Cut.mp4)
 - [Uncut browser recording, technical backup](output/video/NBE_Innovation_Cycle_2026_Demo_Day_Full_Run.mp4)
-- [Technical backup deck](output/presentations/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
-- [Project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
+- [Technical backup deck](output/presentations/archive/NBE_Innovation_Cycle_2026_Model_Journey_Team_Edition.pptx)
+- [Project report](archive/prior_prototype/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf)
 
 Download the pitch and video to the presentation laptop before arrival. Play the video as a local file. Test the display and audio output on the room equipment. Keep the music low enough for Pola and Youssef to speak while it plays.
 
