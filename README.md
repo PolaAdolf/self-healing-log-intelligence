@@ -74,7 +74,7 @@ Scoring starts with 12 consecutive complete windows. A missing interval restarts
 ## Project reference
 
 - [Dataset inventory](DATASET_INVENTORY.md), [feature catalog](FEATURE_CATALOG.md), and [timestamp policy](DATA_TIME_AND_FAILURE_POLICY.md)
-- [Forecast evaluation](outputs_v2/failure_prediction_report.json) and [incident validation plan](INCIDENT_PREDICTION_PLAN.md)
+- [Forecast evaluation](outputs_v2/failure_prediction_report.json), [model comparison](MODEL_EVALUATION.md) and [incident validation plan](INCIDENT_PREDICTION_PLAN.md)
 - [Final presentation](output/presentations/NBE_Innovation_Cycle_2026_Final_Presentation.pptx)
 - [Project report](output/pdf/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
 - [Extended delivery guide](MODEL_DELIVERY_GUIDE.md)

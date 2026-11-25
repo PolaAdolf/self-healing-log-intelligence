@@ -8,7 +8,8 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.base import clone
+from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, precision_score, recall_score, f1_score
 from sklearn.pipeline import make_pipeline
@@ -73,7 +74,33 @@ def evaluate(y, scores, threshold):
     }
 
 
-def train(input_dir: Path, model_path: Path, report_path: Path):
+def candidate_scores(candidates, features, labels, stop_times, start_times):
+    """Rank candidates on expanding development folds with purged targets."""
+    folds = []
+    for fraction in (.4, .6, .8):
+        start = int(len(labels) * fraction)
+        end = min(len(labels), start + len(labels) // 5)
+        fit = (stop_times < start_times.iloc[start]).to_numpy()
+        validation = labels.iloc[start:end]
+        keep = stop_times.iloc[start:end] < start_times.iloc[end] if end < len(labels) else validation.notna()
+        validation = validation.loc[keep]
+        if fit.sum() < 100 or labels.loc[fit].nunique() < 2 or validation.nunique() < 2 or validation.sum() < 5:
+            continue
+        folds.append((fit, validation))
+    if not folds:
+        return {}
+    ranking = {}
+    for name, model in candidates.items():
+        scores = []
+        for fit, validation in folds:
+            estimator = clone(model).fit(features.loc[fit], labels.loc[fit])
+            predictions = estimator.predict_proba(features.loc[validation.index])[:, 1]
+            scores.append(average_precision_score(validation, predictions))
+        ranking[name] = float(np.mean(scores))
+    return ranking
+
+
+def train(input_dir: Path, model_path: Path, report_path: Path, compare_candidates=False):
     bundle, reports = {}, []
     for source, config in load_source_frames(input_dir).items():
         field = FAILURE_FIELDS.get(source)
@@ -108,6 +135,12 @@ def train(input_dir: Path, model_path: Path, report_path: Path):
                 "random_forest": RandomForestClassifier(n_estimators=250, max_depth=8,
                     min_samples_leaf=8, random_state=42, n_jobs=-1),
             }
+            if compare_candidates:
+                candidates["hist_gradient_boosting"] = HistGradientBoostingClassifier(
+                    max_iter=120, max_leaf_nodes=15, min_samples_leaf=20,
+                    l2_regularization=1.0, random_state=42)
+                candidates["shallow_random_forest"] = RandomForestClassifier(
+                    n_estimators=160, max_depth=4, min_samples_leaf=16, random_state=42, n_jobs=-1)
             validation_usable = ys[1].nunique() == 2 and ys[1].sum() >= 5
             if validation_usable:
                 fitted = []
@@ -116,12 +149,23 @@ def train(input_dir: Path, model_path: Path, report_path: Path):
                     validation = estimator.predict_proba(xs[1])[:, 1]
                     fitted.append((float(average_precision_score(ys[1], validation)), name, estimator, validation))
                 _, name, estimator, validation = max(fitted, key=lambda row: row[0])
+                if compare_candidates:
+                    report["candidate_validation_ap"] = {candidate: ap for ap, candidate, _, _ in fitted}
                 threshold = choose_threshold(ys[1], validation)
             else:
                 # Fixed fallback chosen without test-set tuning. Inference is
                 # available for development but cannot pass a validation gate.
-                name = "random_forest_fixed_unvalidated"
-                estimator = candidates["random_forest"]
+                selected = "random_forest"
+                suffix = "_fixed_unvalidated"
+                if compare_candidates:
+                    training_time = ts.loc[masks[0]]
+                    ranking = candidate_scores(candidates, xs[0], ys[0], training_time + steps * STEP, training_time)
+                    report["candidate_development_fold_ap"] = ranking
+                    if ranking:
+                        selected = max(ranking, key=ranking.get)
+                        suffix = "_development_folds_unvalidated"
+                name = selected + suffix
+                estimator = candidates[selected]
                 estimator.fit(xs[0], ys[0])
                 validation = estimator.predict_proba(xs[1])[:, 1]
                 threshold = .5
@@ -208,5 +252,7 @@ if __name__ == "__main__":
     parser.add_argument("--input", type=Path, default=Path("outputs_v2"))
     parser.add_argument("--models", type=Path, default=Path("models_v2/failure_prediction.joblib"))
     parser.add_argument("--report", type=Path, default=Path("outputs_v2/failure_prediction_report.json"))
+    parser.add_argument("--compare-candidates", action="store_true",
+                        help="Compare additional forecast estimators using development data only.")
     args = parser.parse_args()
-    train(args.input, args.models, args.report)
+    train(args.input, args.models, args.report, compare_candidates=args.compare_candidates)
