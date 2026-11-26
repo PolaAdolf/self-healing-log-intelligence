@@ -25,4 +25,4 @@ From the repository root after installing the project requirements:
 python failure_prediction.py --compare-candidates --models tmp/forecast_candidate.joblib --report tmp/forecast_candidate_report.json
 ```
 
-The report includes candidate AP in validation, test AP, precision, recall, F1, false alerts and the persistence baseline. Compare it with [the existing forecast report](outputs_v2/failure_prediction_report.json).
+The report includes candidate AP in validation, test AP, precision, recall, F1, false alerts and the persistence baseline. Compare it with [the existing forecast report](../outputs_v2/failure_prediction_report.json).

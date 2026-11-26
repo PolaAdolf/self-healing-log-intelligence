@@ -1,103 +1,79 @@
 # Self-Healing Log Intelligence
 
-**NBE Innovation Cycle 2026 · Pola Adolf and Youssef Atef**
+Operational log analysis for investigating unusual service behavior.
 
 [![Tests](https://github.com/PolaAdolf/self-healing-log-intelligence/actions/workflows/tests.yml/badge.svg)](https://github.com/PolaAdolf/self-healing-log-intelligence/actions/workflows/tests.yml)
 
-![Current release 2.2 dashboard using the synthetic Apache demonstration file](docs/images/dashboard.png)
+**Development prototype, release 2.2**  
+NBE Innovation Cycle 2026 · Pola Adolf and Youssef Atef
 
-**Development prototype, release 2.2.** [Capabilities and limits](STATUS.md)
+![Dashboard using the included synthetic Apache log](docs/images/dashboard.png)
 
-- Upload supported original log files.
-- Review source-specific anomaly scores with measured evidence.
-- Inspect suggested checks and clearly labelled experimental forecasts.
+Upload supported original logs, inspect unusual activity, and review measured evidence and suggested checks. Four source-specific detectors cover Apache access, Apache error, IIS W3C and Windows Event Viewer. Upstream systems can also supply validated feature-window JSON.
 
-[Conference presentation](output/presentations/NBE_Innovation_Cycle_2026_Conference_Deck.pptx) · [PDF slides](docs/NBE_Innovation_Cycle_2026_Conference_Deck.pdf) · [Rehearsal guide](docs/DEMO_SCRIPT.md) · [Opening animation](docs/film/index.html)
+Anomaly percentiles are not outage probabilities. Only Apache access exposes experimental forecasts of future recorded errors. Confirmed incident prediction is not validated, and automatic remediation is not implemented. Read the [current status](STATUS.md) before operational evaluation.
 
+## Quick start
 
-Log Observatory turns original operational logs into five-minute summaries. It highlights unusual activity and gives operators the measurements and checks they need to investigate. The dashboard also displays experimental five- and fifteen-minute signals for recorded failures for Apache access. For other sources the dashboard explains why a forecast is withheld. See the [2.2 release evidence](MODEL_RELEASE_2_2.md).
+Use Python 3.11 or 3.12. From the repository root:
 
-## Run the dashboard
-
-Use Python 3.11 or newer and install the repository requirements in a virtual environment.
-
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\python -m pip install -r requirements.txt
-.\.venv\Scripts\python raw_log_service.py --data-dir tmp/dashboard_demo
+# Windows: .venv\Scripts\activate
+# macOS / Linux: source .venv/bin/activate
+python -m pip install -r requirements.txt
+python raw_log_service.py --data-dir tmp/dashboard_demo
 ```
 
-On macOS or Linux, replace `.\.venv\Scripts\python` with `.venv/bin/python`.
+Open [localhost:8765](http://localhost:8765), select **Apache access**, choose [`examples/apache_demo.log`](examples/apache_demo.log), and click **Upload & analyze**. The synthetic sample demonstrates processing, not prediction accuracy.
 
-1. Open [localhost:8765](http://localhost:8765).
-2. Select Apache access, Apache error, IIS W3C access, or Windows Event Viewer.
-3. Choose an original file for that source and select **Upload & analyze**.
-4. Review coverage, the current anomaly percentile, supporting measurements, and suggested checks. **Export assessment** downloads the result as JSON.
+Scoring needs 12 consecutive complete five-minute windows. A missing interval restarts context. The sample already contains the required hour of history. Uploaded files stay in the selected local data directory.
 
-To try the full upload flow, select **Apache access** and use the [synthetic Apache sample](examples/apache_demo.log). It covers 12 windows and demonstrates the workflow. Use your own approved logs to assess behavior on your system.
-
-For a hosted rehearsal, see [GitHub Codespaces](MODEL_DELIVERY_GUIDE.md#run-in-github-codespaces). Use a private forwarded port and upload only files approved for that environment. The [demo guide](LIVE_DEMO.md) explains how to rehearse with supplied logs.
+For hosted evaluation, follow [GitHub Codespaces](docs/MODEL_DELIVERY_GUIDE.md#run-in-github-codespaces). Keep the forwarded port private and use approved data.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    A[Original log files] --> B[Source parser and UTC conversion]
-    B --> C[Complete five-minute feature windows]
-    D[Upstream feature JSON] --> E[Window validation and rolling history]
+    A[Original logs] --> B[Parser and UTC policy]
+    B --> C[Complete five-minute windows]
+    D[Feature JSON] --> E[Validation and rolling history]
     C --> E
     E --> F[Source-specific Isolation Forest]
-    E --> G[Experimental failure forecast]
-    F --> H[Score, measured evidence, and suggested checks]
+    E --> G[Experimental error forecast]
+    F --> H[Measured evidence and suggested checks]
     G --> H
-    H --> I[Dashboard or JSON result]
+    H --> I[Dashboard or JSON assessment]
 ```
 
-| Component | Role |
-| --- | --- |
-| [raw_log_service.py](raw_log_service.py) and [web/index.html](web/index.html) | Upload original logs, show results, and export assessments. |
-| [build_corrected_dataset.py](build_corrected_dataset.py) | Parse sources and build feature windows for training. |
-| [train_v2_models.py](train_v2_models.py) and [model_runtime.py](model_runtime.py) | Train source-specific detectors and score completed windows. |
-| [failure_prediction.py](failure_prediction.py) | Train and evaluate experimental forecasts of future recorded errors. |
-| [schemas](schemas/) | Define feature-window inputs and future incident labels. |
+An operator decides what to investigate or change. Collection, scheduling and production access control remain integration responsibilities.
 
-## Run the model on feature windows
+## Verify and package
 
 ```bash
-python run_model_demo.py --source apache
 python -m pip install -r requirements-dev.txt
 python -m pytest tests -q
+python run_model_demo.py --source apache
+python package_live_delivery.py
 ```
 
-An upstream caller can send one completed window per invocation. Reuse the state file for successive calls and keep timestamps in sequence.
+The package command creates a checked ZIP under `release/`. See [testing](docs/TESTING.md) and the [model contract](docs/MODEL_INTERFACE.md).
 
-```bash
-python model_runtime.py --input current_window.json --output prediction.json --state runtime_state.json
-```
+## Repository guide
 
-Scoring starts with 12 consecutive complete windows. A missing interval restarts the rolling history for that source. See the [model input contract](MODEL_INTERFACE.md) and [test guide](TESTING.md) for examples and expected results.
+| Location | Purpose |
+| --- | --- |
+| Root Python modules | Runtime, service, training and evaluation commands |
+| `web/` | Dashboard interface |
+| `models_v2/` | Model bundles, model card and checksums |
+| `schemas/`, `examples/` | Input contracts and synthetic examples |
+| `tests/` | Parser, history, leakage and scoring checks |
+| `outputs_v2/` | Prepared features and retained evaluation evidence |
+| `docs/` | Integration, methodology, limitations and presentation |
+| `tools/` | Presentation authoring tools |
 
-## Interpret the results
+[Documentation](docs/README.md) · [PowerPoint](docs/presentations/NBE_Innovation_Cycle_2026_Conference_Deck.pptx) · [PDF](docs/presentations/NBE_Innovation_Cycle_2026_Conference_Deck.pdf) · [Release evidence](docs/MODEL_RELEASE_2_2.md)
 
-- **Current anomaly percentile.** The rank of the current behavior against training history. Compare it with the source's review threshold. The score does not measure outage probability.
-- **Evidence and checks.** Measurements and suggested operator checks support investigation. Remediation requires a human decision.
-- **Experimental forecasts.** The target is future recorded errors, including recurrence. The scores are uncalibrated. Confirmed incident prediction requires approved labels and evaluation on a later, untouched period.
-- **Source coverage.** Four models were trained. Tomcat access and the supplied application logs were examined but excluded from model training. Timestamp assumptions and feature exclusions are documented below.
+## Rights
 
-## Output preview
-
-![Animated overview of three real synthetic-demo output panels](docs/images/demo-overview.gif)
-
-This overview cycles through actual result panels. It is not a recording of an upload.
-
-## Project reference
-
-- [Dataset inventory](DATASET_INVENTORY.md), [feature catalog](FEATURE_CATALOG.md), and [timestamp policy](DATA_TIME_AND_FAILURE_POLICY.md)
-- [Forecast evaluation](outputs_v2/failure_prediction_report.json), [model comparison](MODEL_EVALUATION.md) and [incident validation plan](INCIDENT_PREDICTION_PLAN.md)
-- [Final presentation](output/presentations/NBE_Innovation_Cycle_2026_Final_Presentation.pptx)
-- [Archived project report](archive/prior_prototype/NBE_Innovation_Cycle_2026_Self_Healing_Log_Intelligence_Report.pdf) and [Demo Day notes](DEMO_DAY_2026.md)
-- [Extended delivery guide](MODEL_DELIVERY_GUIDE.md)
-
-## Rights and contributions
-
-All rights reserved. The owners have not granted an open-source license. See [LICENSE](LICENSE). This release does not introduce an outside-contribution program.
+All rights reserved. Public access does not grant an open-source license. See [LICENSE](LICENSE). Only load model artifacts from a source you trust; see the [model trust guidance](docs/MODEL_DELIVERY_GUIDE.md#model-artifact-trust).

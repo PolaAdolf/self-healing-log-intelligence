@@ -9,7 +9,7 @@ The dashboard, feature-window CLI, and archive scorer use the same release polic
 | IIS W3C | 354 | 0 → 0 of 104 | Withheld. The archive test had zero positive windows. |
 | Windows Event Viewer | 3,551 | 147 → 122 of 1,188 | Withheld. The forecast ranked below persistence on the original archive test. A later workstation check also produced many false alerts at the saved thresholds. |
 
-The [machine-readable audit](outputs_v2/detector_v22_audit.json) records the counts. The detector comparison scores the same eligible windows in the last 20% of each archive timeline. Review flag counts show review workload. The archive has no reviewed anomaly labels to tell us which flags were correct. Tomcat and the application logs still have insufficient training history for a detector.
+The [machine-readable audit](../outputs_v2/detector_v22_audit.json) records the counts. The detector comparison scores the same eligible windows in the last 20% of each archive timeline. Review flag counts show review workload. The archive has no reviewed anomaly labels to tell us which flags were correct. Tomcat and the application logs still have insufficient training history for a detector.
 
 The preview rule requires at least 20 positive test windows and higher average precision than the persistence baseline for the source and horizon. This is a conservative rule for showing a prototype score using previously reviewed archive results. Production use needs independent validation on later data, service-level coverage checks, and an agreed false alert budget.
 

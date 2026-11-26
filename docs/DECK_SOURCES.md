@@ -21,4 +21,4 @@ All numbered results are descriptive archive results or a clearly marked synthet
 | 15 | UTC conversion and UTC assumptions stay separate | Appendix A2 / Source: DATA_TIME_AND_FAILURE_POLICY.md |
 | 16 | Missing evidence limits what we can conclude | Appendix A3 / Sources: STATUS.md; DATA_TIME_AND_FAILURE_POLICY.md; INCIDENT_PREDICTION_PLAN.md |
 
-Theme fallback fonts: Georgia headings and Calibri body. All main charts, tables and process diagrams remain editable. The original final deck is preserved byte-for-byte.
+Theme fallback fonts: Georgia headings and Calibri body. All main charts, tables and process diagrams remain editable. The previous final deck is preserved in Git history at commit 374a77e.

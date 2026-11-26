@@ -16,4 +16,4 @@ Anomaly percentiles are training-history ranks, not outage probabilities. Foreca
 
 No production accuracy, confirmed root cause or automatic remediation is claimed. UTC assumptions and inferred collection coverage require owner confirmation. A missing interval restarts the source's history; no logs alone does not prove downtime.
 
-Business percentages are kickoff targets, not measured improvements. See [target provenance](docs/business_case_targets.md), [release evidence](MODEL_RELEASE_2_2.md) and [next-phase plan](INCIDENT_PREDICTION_PLAN.md).
+Business percentages are kickoff targets, not measured improvements. See [target provenance](docs/business_case_targets.md), [release evidence](docs/MODEL_RELEASE_2_2.md) and [next-phase plan](docs/INCIDENT_PREDICTION_PLAN.md).

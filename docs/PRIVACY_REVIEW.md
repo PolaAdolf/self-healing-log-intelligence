@@ -12,6 +12,6 @@ Read-only pattern review of tracked text on 26 November 2026. No raw lines or ma
 | --- | ---: | ---: | --- |
 | `tests/test_corrected_dataset.py` | 1 | 0 | False |
 
-No source data was silently removed. Historical videos moved to LFS still exist in earlier Git history. A history rewrite would require a separate owner decision. Public distribution of bank-related material, including older binaries, remains an owner review item.
+No source data was silently removed. Historical videos have been removed from the current branch and remain in earlier Git history. A history rewrite would require a separate owner decision. Public distribution of bank-related material, including older binaries, remains an owner review item.
 
 The only IPv4 candidate outside documentation/loopback ranges is a hard-coded private-address string in a unit-test fixture (`tests/test_corrected_dataset.py:47`). It is constructed in the test, not extracted from customer data. It was retained and documented, with no production code or fixture behavior change.

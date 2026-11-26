@@ -12,7 +12,7 @@ from pptx.oxml.xmlchemy import OxmlElement
 from PIL import Image
 import qrcode
 
-r=Path(__file__).resolve().parents[1]; out=r/'output/presentations';out.mkdir(exist_ok=True)
+r=Path(__file__).resolve().parents[1]; out=r/'docs/presentations';out.mkdir(parents=True,exist_ok=True)
 p=Presentation();p.slide_width= Inches(13.333);p.slide_height=Inches(7.5)
 C={'bg':'071017','panel':'0C1620','text':'E8F1F5','muted':'7F93A1','mint':'5EEAD4','amber':'FFB454','red':'FF5C5C'}
 def rgb(c):return RGBColor.from_string(C.get(c,c))

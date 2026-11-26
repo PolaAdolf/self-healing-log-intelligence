@@ -15,4 +15,4 @@ Use the conference deck for release 2.2. Keep forecasts labelled experimental.
 
 Use `docs/demo_result.json` and `docs/images/dashboard.png` as the recorded synthetic rehearsal evidence. If the live result differs, inspect model checksum, source, input and accumulated session data. Do not alter model thresholds to match a slide.
 
-The optional HTML opening film is an explanatory animation. Its illustrated graphs are not monitoring telemetry. Use the live dashboard for the actual product demonstration.
+Use the current dashboard for the actual product demonstration. Historical media remains in Git history.
